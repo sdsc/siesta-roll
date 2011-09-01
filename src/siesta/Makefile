@@ -101,7 +101,7 @@ build:
 	  $(COMPILERSETUP); \
 	  $(MPISETUP); \
 	  cd $(SOURCE)/Obj; \
-          sh ../Src/obj_setup.sh
+          sh ../Src/obj_setup.sh \
 	)
 
 install::
