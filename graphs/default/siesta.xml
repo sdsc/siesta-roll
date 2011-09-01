@@ -1,0 +1,32 @@
+<?xml version="1.0" standalone="no"?>
+
+<graph>
+
+<description>
+SIESTA
+http://www.icmab.es/siesta
+</description>
+
+<copyright>
+The Fundación General de la Universidad Autónoma de Madrid (FGUAM)
+</copyright>
+
+<edge from="base">
+  <to>siesta-common</to>
+</edge>
+<order head="base">
+  <tail>siesta-common</tail>
+</order>
+
+<edge from="envmodules-common">
+  <to>siesta-modules-common</to>
+</edge>
+<order head="envmodules-common">
+  <tail>siesta-modules-common</tail>
+</order>
+
+<order head="siesta-common">
+  <tail>siesta-modules-common</tail>
+</order>
+
+</graph>
