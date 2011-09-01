@@ -1,0 +1,50 @@
+<?xml version="1.0" standalone="no"?>
+
+<kickstart>
+
+<description>
+SIESTA
+(Spanish Initiative for Electronic Simulations)
+http://www.icmab.es/siesta
+</description>
+
+<copyright>
+The Fundación General de la Universidad Autónoma de Madrid (FGUAM)
+</copyright>
+
+<changelog>
+</changelog>
+
+<post>
+
+# Remove /etc/profile.d files in favor of loadable modules when available
+
+if test `grep -c /opt/modulefiles/applications /etc/profile.d/modules.csh` = 0; then
+  echo 'setenv MODULEPATH /opt/modulefiles/applications:$MODULEPATH' >> \
+       /etc/profile.d/modules.csh
+fi
+if test `grep -c /opt/modulefiles/applications /etc/profile.d/modules.sh` = 0; then
+  echo 'export MODULEPATH=/opt/modulefiles/applications:$MODULEPATH' >> \
+       /etc/profile.d/modules.sh
+fi
+
+if test -f /etc/profile.d/siesta.sh; then
+
+  /bin/rm -f /etc/profile.d/siesta.*
+  /bin/mkdir -m 0755 -p /opt/modulefiles/applications/siesta
+
+<file name="/opt/modulefiles/applications/siesta/6.0" perms="0644">
+#%Module1.0
+prepend-path PATH /opt/siesta/bin
+</file>
+<file name="/opt/modulefiles/applications/siesta/.version.3.1">
+#%Module1.0
+set ModulesVersion "3.1"
+</file>
+/bin/ln -s /opt/modulefiles/applications/siesta/.version.1.3 \
+           /opt/modulefiles/applications/siesta/.version
+fi
+
+</post>
+
+</kickstart>
