@@ -9,10 +9,10 @@ FC_ASIS=$(FC)
 #
 # You can experiment with more aggressive optimizations (?)
 #
-FFLAGS=-O2 -mp
+FFLAGS=-O2
 FFLAGS_DEBUG= -g -O0
 RANLIB=echo 
-MPI_INCLUDE=ROLLMPI_HOME/include
+MPI_INCLUDE=
 MPI_INTERFACE=libmpi_f90.a
 FPPFLAGS_MPI=-DMPI
 #
@@ -33,8 +33,7 @@ FPPFLAGS_MPI=-DMPI
 # (make sure to put /somepath/to/ACML3.6.0/ifort64/lib 
 #
 #LAPACK=-L/apl/OPTERON/ACML3.6.0/ifort64/lib -lacml
-MKLROOT=ROLLMKL
-LIBS= $(MKLROOT)/libmkl_scalapack_lp64.a  -Wl,--start-group $(MKLROOT)/libmkl_intel_lp64.a $(MKLROOT)/libmkl_sequential.a $(MKLROOT)/libmkl_core.a $(MKLROOT)/libmkl_blacs_intelmpi_lp64.a -Wl,--end-group -lpthread $(MPI_LIBS)
+LIBS= ROLLMKL/libmkl_scalapack_lp64.a  -Wl,--start-group ROLLMKL/libmkl_intel_lp64.a ROLLMKL/libmkl_sequential.a ROLLMKL/libmkl_core.a ROLLMKL/libmkl_blacs_intelmpi_lp64.a -Wl,--end-group -lpthread
 
 SYS=nag
 FPPFLAGS= $(FPPFLAGS_MPI) $(FPPFLAGS_CDF)
