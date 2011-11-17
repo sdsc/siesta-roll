@@ -94,15 +94,13 @@ MPISETUP = \
   export PATH=$${PATH}:$${MPI_HOME}/bin; \
   export LD_LIBRARY_PATH=$${LD_LIBRARY_PATH}:$${MPI_HOME}/lib
 
-MKLROOT=/opt/intel/Compiler/11.1/072/mkl/lib/em64t
-
 build:
 	tar xvf $(SOURCE).tgz
 	( \
 	  $(COMPILERSETUP); \
  	  $(MPISETUP); \
           cp patch-files/linux64-mpi.make $(SOURCE)/Obj/arch.make; \
-          perl -pi -e "s!ROLLMKL!$(MKLROOT)!g" $(SOURCE)/Obj/arch.make; \
+          perl -pi -e "s!ROLLMKL!$${MKL_ROOT}!g" $(SOURCE)/Obj/arch.make; \
           cd $(SOURCE)/Obj; \
           sh ../Src/obj_setup.sh; \
           make \
