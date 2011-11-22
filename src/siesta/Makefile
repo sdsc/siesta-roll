@@ -74,6 +74,9 @@ COMPILERSETUP = \
     . /etc/profile.d/modules.sh; \
     module load $(ROLLCOMPILER); \
   fi
+ifeq ("$(ROLLCOMPILER)", "intel")
+  COMPILERSETUP += ; MKLLIB=`find $${MKL_ROOT}/lib/* -maxdepth 0 | head -1`
+endif
 
 ifeq ("$(ROLLNETWORK)", "eth")
   MPI = $(ROLLMPI)
@@ -98,19 +101,17 @@ build:
 	tar xvf $(SOURCE).tgz
 	( \
 	  $(COMPILERSETUP); \
- 	  $(MPISETUP); \
-          cp patch-files/linux64-mpi.make $(SOURCE)/Obj/arch.make; \
-          perl -pi -e "s!ROLLMKL!$${MKL_ROOT}!g" $(SOURCE)/Obj/arch.make; \
-          cd $(SOURCE)/Obj; \
-          sh ../Src/obj_setup.sh; \
-          make \
+	  $(MPISETUP); \
+	  cp patch-files/linux64-mpi.make $(SOURCE)/Obj/arch.make; \
+	  perl -pi -e "s!ROLLMKL!$${MKLLIB}!g" $(SOURCE)/Obj/arch.make; \
+	  cd $(SOURCE)/Obj; \
+	  sh ../Src/obj_setup.sh; \
+	  make \
 	)
 
 install::
-	mkdir $(ROOT)/$(PKGROOT)
-	( \
-	  cd $(SOURCE); \
-	)
+	mkdir -p -m 755 $(ROOT)/$(PKGROOT)/bin
+	cp $(SOURCE)/Obj/siesta $(ROOT)/$(PKGROOT)/bin/
 
 clean::
 	rm -rf $(SOURCE)
