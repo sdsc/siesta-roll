@@ -72,11 +72,11 @@ REDHAT.ROOT = $(PWD)/../../
 COMPILERSETUP = \
   if test -e /etc/profile.d/modules.sh; then \
     . /etc/profile.d/modules.sh; \
+    module load intel; \
+    export MKLLIB=`find $${MKL_ROOT}/lib/* -maxdepth 0 | head -1`; \
+    module unload intel; \
     module load $(ROLLCOMPILER); \
   fi
-ifeq ("$(ROLLCOMPILER)", "intel")
-  COMPILERSETUP += ; MKLLIB=`find $${MKL_ROOT}/lib/* -maxdepth 0 | head -1`
-endif
 
 ifeq ("$(ROLLNETWORK)", "eth")
   MPI = $(ROLLMPI)
