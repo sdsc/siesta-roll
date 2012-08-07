@@ -12,17 +12,7 @@ http://www.icmab.es/siesta
 The Fundación General de la Universidad Autónoma de Madrid (FGUAM)
 </copyright>
 
-<package>siesta_ROLLCOMPILER_ROLLNETWORK_ROLLMPI</package>
-
-<post>
-
-<file name="/etc/profile.d/siesta.csh" perms="0644">
-set path = ( /opt/siesta/bin $path )
-</file>
-<file name="/etc/profile.d/siesta.sh" perms="0644">
-export PATH=/opt/siesta/bin:$PATH
-</file>
-
-</post>
+<package>siesta_ROLLCOMPILER_ROLLMPI_ROLLNETWORK</package>
+<package>siesta-modules</package>
 
 </kickstart>

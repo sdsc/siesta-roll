@@ -19,15 +19,4 @@ The Fundación General de la Universidad Autónoma de Madrid (FGUAM)
   <tail>siesta-common</tail>
 </order>
 
-<edge from="envmodules-common">
-  <to>siesta-modules-common</to>
-</edge>
-<order head="envmodules-common">
-  <tail>siesta-modules-common</tail>
-</order>
-
-<order head="siesta-common">
-  <tail>siesta-modules-common</tail>
-</order>
-
 </graph>
