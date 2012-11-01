@@ -1,4 +1,4 @@
-ROLLNAME = siesta$(ROLLSUFFIX)
+ROLLNAME = siesta
 RELEASE  = 0
 COLOR    = orange
 
