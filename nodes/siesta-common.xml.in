@@ -14,5 +14,6 @@ The Fundación General de la Universidad Autónoma de Madrid (FGUAM)
 
 <package>siesta_ROLLCOMPILER_ROLLMPI_ROLLNETWORK</package>
 <package>siesta-modules</package>
+<package>siesta-roll-test</package>
 
 </kickstart>
