@@ -1,6 +1,6 @@
 NAME               = siesta_$(ROLLCOMPILER)_$(ROLLMPI)_$(ROLLNETWORK)
-VERSION            = 3.1
-RELEASE            = 1
+VERSION            = 3.2.4
+RELEASE            = 0
 PKGROOT            = /opt/siesta
 
 SRC_SUBDIR         = siesta
