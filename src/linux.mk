@@ -79,5 +79,6 @@
 #
 
 SRCDIRS = `find . -type d -maxdepth 1 \
-	-not -name CVS \
-	-not -name .`
+        -not -name build-* \
+        -not -name siesta-modules \
+	-not -name .` siesta-modules

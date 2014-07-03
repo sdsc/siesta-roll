@@ -1,4 +1,4 @@
-NAME    = siesta-modules
-VERSION	= 3.1
-RELEASE	= 1
-RPM.EXTRAS         = AutoReq:No
+NAME    	= siesta-modules
+VERSION 	= 1.0
+RELEASE         = 0
+RPM.EXTRAS = "AutoReq: no"

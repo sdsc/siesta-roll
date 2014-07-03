@@ -104,8 +104,12 @@ build: $(SRC_DIRS)
 	( \
 	  $(COMPILERSETUP); \
 	  $(MPISETUP); \
-	  cp patch-files/linux64-mpi.make $(SOURCE_DIR)/Obj/arch.make; \
+          module load hdf5; \
+          module load netcdf; \
+          patch -o $(SOURCE_DIR)/Obj/arch.make $(SOURCE_DIR)/Src/Sys/DOCUMENTED-TEMPLATE.make patch-files/DOCUMENTED-TEMPLATE.make.patch; \
 	  perl -pi -e "s!ROLLMKL!$${MKLLIB}!g" $(SOURCE_DIR)/Obj/arch.make; \
+	  perl -pi -e "s!ROLLNETCDF!$${NETCDFHOME}!g" $(SOURCE_DIR)/Obj/arch.make; \
+	  perl -pi -e "s!ROLLHDF5!$${HDF5HOME}!g" $(SOURCE_DIR)/Obj/arch.make; \
 	  cd $(SOURCE_DIR)/Obj; \
 	  sh ../Src/obj_setup.sh; \
 	  $(MAKE) \
@@ -114,8 +118,11 @@ build: $(SRC_DIRS)
 
 install::
 	mkdir -p -m 755 $(ROOT)/$(PKGROOT)/bin
+	mkdir -p $(REDHAT.ROOT)/src/build-siesta-modules
 	cp $(SOURCE_DIR)/Obj/siesta $(ROOT)/$(PKGROOT)/bin/
 	cp -r $(SOURCE_DIR)/Tests $(ROOT)/$(PKGROOT)
+	cat siesta.module | perl -pi -e "s!MODULEROOT!/opt/modulefiles/applications/siesta!g;s!VERSION!$(VERSION)!g;s!ROLLCOMPILER!$(ROLLCOMPILER)!g;s!ROLLMPI!$(ROLLMPI)!g;s!ROLLNETWORK!$(ROLLNETWORK)!g" \
+          > $(REDHAT.ROOT)/src/build-siesta-modules/$(NAME).module
 	@echo "::: Package $(NAME) install complete :::"
 
 clean::
