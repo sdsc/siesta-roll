@@ -6,8 +6,7 @@ This roll bundles the Siesta molecular dynamics toll.
 
 For more information about Siesta please visit the official web page:
 
-- <a href="www.icmab.es/siesta/‎" target="_blank"></a> is both a method and its
-computer program implementation, to perform efficient electronic structure
+- <a href="www.icmab.es/siesta/‎" target="_blank"></a> is both a method and its computer program implementation, to perform efficient electronic structure
 calculations and ab initio molecular dynamics simulations of molecules and
 solids.
 
@@ -25,7 +24,7 @@ Rocks development machine.
 
 ## Dependencies
 
-Unknown at this time.
+compiler and mpi stack, netcdf,hd5f with parallel libraries (this option can be removed)
 
 
 ## Building

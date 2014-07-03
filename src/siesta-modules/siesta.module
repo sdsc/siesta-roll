@@ -1,3 +1,0 @@
-#%Module1.0
-setenv SIESTAHOME /opt/siesta
-prepend-path PATH /opt/siesta/bin
