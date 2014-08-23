@@ -56,57 +56,65 @@
 #
 # $Log$
 
-ifndef ROLLCOMPILER
-  ROLLCOMPILER = gnu
-endif
-ifndef ROLLNETWORK
-  ROLLNETWORK = eth
-endif
-ifndef ROLLMPI
-  ROLLMPI = openmpi
-endif
-
 REDHAT.ROOT = $(CURDIR)/../../
+PKGROOT = /opt/siesta
 
 -include $(ROCKSROOT)/etc/Rules.mk
 include Rules.mk
 include pull.mk
 
-COMPILERSETUP = \
+COMPILERSETUP =  \
   if test -e /etc/profile.d/modules.sh; then \
     . /etc/profile.d/modules.sh; \
-    module load intel; \
-    export MKLLIB=`find $${MKL_ROOT}/lib/* -maxdepth 0 | head -1`; \
-    module unload intel; \
-    module load $(ROLLCOMPILER); \
-  fi
+    module load $(ROLLCOMPILER) || true; \
+    module load mkl || true; \
+  fi; \
+  echo === Compiler and version ===; \
+  $(CC) --version; \
+  echo === MKL_ROOT ===; \
+  echo $${MKL_ROOT}; \
+  export MKLLIB=`find $${MKL_ROOT}/lib/* -maxdepth 0 | head -1`
 
 ifeq ("$(ROLLNETWORK)", "eth")
-  MPI = $(ROLLMPI)
+  MPIMODULE = $(ROLLMPI)
 else
-  MPI = $(ROLLMPI)_$(ROLLNETWORK)
+  MPIMODULE = $(ROLLMPI)_$(ROLLNETWORK)
 endif
 
 MPISETUP = \
   if test -e /etc/profile.d/modules.sh; then \
     . /etc/profile.d/modules.sh; \
-    module load $(MPI); \
+    module load $(MPIMODULE) || true; \
   fi; \
-  export MPI_HOME=`which mpicxx | perl -pe 's!/bin/.*!!'`; \
-  if test -z "$${MPI_HOME}"; then \
-    export MPI_HOME=/opt/$(ROLLMPI); \
+  if test -z "$${MPIHOME}"; then \
+    export MPIHOME=/opt/$(ROLLMPI); \
   fi; \
-  echo Using MPI from $${MPI_HOME}; \
-  export PATH=$${PATH}:$${MPI_HOME}/bin; \
-  export LD_LIBRARY_PATH=$${LD_LIBRARY_PATH}:$${MPI_HOME}/lib
+  echo === MPIHOME ===; \
+  echo $${MPIHOME}
+
+HDF5SETUP = \
+  if test -e /etc/profile.d/modules.sh; then \
+    . /etc/profile.d/modules.sh; \
+    module load hdf5 || true; \
+  fi; \
+  echo === HDF5HOME ===; \
+  echo $${HDF5HOME}
+
+NETCDFSETUP = \
+  if test -e /etc/profile.d/modules.sh; then \
+    . /etc/profile.d/modules.sh; \
+    module load netcdf || true; \
+  fi; \
+  echo === NETCDFHOME ===; \
+  echo $${NETCDFHOME}
 
 build: $(SRC_DIRS)
 	( \
 	  $(COMPILERSETUP); \
 	  $(MPISETUP); \
-          module load hdf5; \
-          module load netcdf; \
-          patch -o $(SOURCE_DIR)/Obj/arch.make $(SOURCE_DIR)/Src/Sys/DOCUMENTED-TEMPLATE.make patch-files/DOCUMENTED-TEMPLATE.make.patch; \
+	  $(HDF5SETUP); \
+	  $(NETCDFSETUP); \
+	  patch -o $(SOURCE_DIR)/Obj/arch.make $(SOURCE_DIR)/Src/Sys/DOCUMENTED-TEMPLATE.make patch-files/DOCUMENTED-TEMPLATE.make.patch; \
 	  perl -pi -e "s!ROLLMKL!$${MKLLIB}!g" $(SOURCE_DIR)/Obj/arch.make; \
 	  perl -pi -e "s!ROLLNETCDF!$${NETCDFHOME}!g" $(SOURCE_DIR)/Obj/arch.make; \
 	  perl -pi -e "s!ROLLHDF5!$${HDF5HOME}!g" $(SOURCE_DIR)/Obj/arch.make; \
@@ -118,9 +126,9 @@ build: $(SRC_DIRS)
 
 install::
 	mkdir -p -m 755 $(ROOT)/$(PKGROOT)/bin
-	mkdir -p $(REDHAT.ROOT)/src/build-siesta-modules
 	cp $(SOURCE_DIR)/Obj/siesta $(ROOT)/$(PKGROOT)/bin/
 	cp -r $(SOURCE_DIR)/Tests $(ROOT)/$(PKGROOT)
+	mkdir -p -m 755 $(REDHAT.ROOT)/src/build-siesta-modules
 	cat siesta.module | perl -pi -e "s!MODULEROOT!/opt/modulefiles/applications/siesta!g;s!VERSION!$(VERSION)!g;s!ROLLCOMPILER!$(ROLLCOMPILER)!g;s!ROLLMPI!$(ROLLMPI)!g;s!ROLLNETWORK!$(ROLLNETWORK)!g" \
           > $(REDHAT.ROOT)/src/build-siesta-modules/$(NAME).module
 	@echo "::: Package $(NAME) install complete :::"
