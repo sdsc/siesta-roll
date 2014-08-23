@@ -52,12 +52,18 @@ for openmpi ethernet.  To build for a different configuration, use the
 make ROLLCOMPILER=intel ROLLMPI=mpich2 ROLLNETWORK=mx 
 ```
 
-The build process currently supports one or more of the values "intel", "pgi",
+The build process currently supports one of the values "intel", "pgi",
 and "gnu" for the `ROLLCOMPILER` variable, defaulting to "gnu".  It supports
-`ROLLMPI` values "openmpi", "mpich2", and "mvapich2", defaulting to "openmpi".
+`ROLLMPI` values "openmpi" and "mvapich2", defaulting to "openmpi".
 It uses any `ROLLNETWORK` variable value(s) to load appropriate mpi modules,
 assuming that there are modules named `$(ROLLMPI)_$(ROLLNETWORK)` available
-(e.g., `openmpi_ib`, `mpich2_mx`, etc.).
+(e.g., `openmpi_ib`, `mvapich2_mx`, etc.).  The build process uses the
+ROLLCOMPILER value to load an environment module, so you can also use it to
+specify a particular compiler version, e.g.,
+
+```shell
+% make ROLLCOMPILER=gnu/4.8.1 ROLLMPI=mvapich2 ROLLNETWORK=ib
+```
 
 If the `ROLLCOMPILER`, `ROLLNETWORK` and/or `ROLLMPI` variables are specified,
 their values are incorporated into the names of the produced roll and rpms, e.g.,
@@ -65,8 +71,7 @@ their values are incorporated into the names of the produced roll and rpms, e.g.
 ```shell
 make ROLLCOMPILER=intel ROLLMPI=mvapich2 ROLLNETWORK=ib
 ```
-produces a roll with a name that begins "`siesta_intel_mvapich2_ib`"; it
-contains and installs similarly-named rpms.
+produces an rpm with a name that begins "`siesta_intel_mvapich2_ib`".
 
 
 ## Installation
@@ -97,10 +102,4 @@ run the test scripts execute the following command(s):
 
 ```shell
 % /root/rolltests/siesta.t 
-ok 1 - siesta is installed
-ok 2 - siesta test run
-ok 3 - siesta module installed
-ok 4 - siesta version module installed
-ok 5 - siesta version module link created
-1..5
 ```

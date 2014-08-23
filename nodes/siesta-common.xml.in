@@ -3,16 +3,16 @@
 <kickstart>
 
 <description>
-SIESTA
-(Spanish Initiative for Electronic Simulations)
+SIESTA (Spanish Initiative for Electronic Simulations)
 http://www.icmab.es/siesta
 </description>
 
 <copyright>
-The Fundación General de la Universidad Autónoma de Madrid (FGUAM)
+Copyright (c) 2000 - 2014 The Regents of the University of California.
+All rights reserved. Rocks(r) v5.1 www.rocksclusters.org
 </copyright>
 
-<package>siesta_ROLLCOMPILER_ROLLMPI_ROLLNETWORK</package>
+<package>siesta_COMPILERNAME_ROLLMPI_ROLLNETWORK</package>
 <package>siesta-modules</package>
 <package>siesta-roll-test</package>
 
