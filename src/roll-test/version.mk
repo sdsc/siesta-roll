@@ -1,4 +1,5 @@
-NAME	= siesta-roll-test
-VERSION	= 1
-RELEASE	= 0
-RPM.EXTRAS         = AutoReq:No
+NAME       = siesta-roll-test
+VERSION    = 1
+RELEASE    = 0
+
+RPM.EXTRAS = AutoReq:No

@@ -57,7 +57,6 @@
 # $Log$
 
 REDHAT.ROOT = $(CURDIR)/../../
-PKGROOT = /opt/siesta
 
 -include $(ROCKSROOT)/etc/Rules.mk
 include Rules.mk
