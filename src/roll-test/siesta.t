@@ -17,10 +17,7 @@ my $TESTFILE = 'tmpsiesta';
 open(OUT, ">$TESTFILE.sh");
 print OUT <<END;
 #!/bin/bash
-if test -f /etc/profile.d/modules.sh; then
-  . /etc/profile.d/modules.sh
-  module load siesta
-fi
+module load siesta
 mkdir $TESTFILE.dir
 cd $TESTFILE.dir
 cp -r \$SIESTAHOME/Tests/* .
@@ -44,7 +41,6 @@ SKIP: {
   like($output, qr/\.out/, 'siesta output file created');
   like($output, qr/Electric dipole.*0\.558/, 'siesta test run output');
 
-  skip 'modules not installed', 3 if ! -f '/etc/profile.d/modules.sh';
   `/bin/ls /opt/modulefiles/applications/siesta/[0-9]* 2>&1`;
   ok($? == 0, 'siesta module installed');
   `/bin/ls /opt/modulefiles/applications/siesta/.version.[0-9]* 2>&1`;

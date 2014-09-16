@@ -63,13 +63,17 @@ include Rules.mk
 include pull.mk
 
 COMPILERSETUP =  \
-  if test -e /etc/profile.d/modules.sh; then \
-    . /etc/profile.d/modules.sh; \
-    module load $(ROLLCOMPILER) || true; \
-    module load mkl || true; \
-  fi; \
+  module load $(ROLLCOMPILER) || true; \
   echo === Compiler and version ===; \
-  $(CC) --version; \
+  $(CC) --version
+
+HDF5SETUP = \
+  module load hdf5 || true; \
+  echo === HDF5HOME ===; \
+  echo $${HDF5HOME}
+
+MKLSETUP = \
+  module load mkl || true; \
   echo === MKL_ROOT ===; \
   echo $${MKL_ROOT}; \
   export MKLLIB=`find $${MKL_ROOT}/lib/* -maxdepth 0 | head -1`
@@ -81,35 +85,19 @@ else
 endif
 
 MPISETUP = \
-  if test -e /etc/profile.d/modules.sh; then \
-    . /etc/profile.d/modules.sh; \
-    module load $(MPIMODULE) || true; \
-  fi; \
-  if test -z "$${MPIHOME}"; then \
-    export MPIHOME=/opt/$(ROLLMPI); \
-  fi; \
+  module load $(MPIMODULE) || true; \
   echo === MPIHOME ===; \
   echo $${MPIHOME}
 
-HDF5SETUP = \
-  if test -e /etc/profile.d/modules.sh; then \
-    . /etc/profile.d/modules.sh; \
-    module load hdf5 || true; \
-  fi; \
-  echo === HDF5HOME ===; \
-  echo $${HDF5HOME}
-
 NETCDFSETUP = \
-  if test -e /etc/profile.d/modules.sh; then \
-    . /etc/profile.d/modules.sh; \
-    module load netcdf || true; \
-  fi; \
+  module load netcdf || true; \
   echo === NETCDFHOME ===; \
   echo $${NETCDFHOME}
 
 build: $(SRC_DIRS)
 	( \
 	  $(COMPILERSETUP); \
+	  $(MKLSETUP); \
 	  $(MPISETUP); \
 	  $(HDF5SETUP); \
 	  $(NETCDFSETUP); \

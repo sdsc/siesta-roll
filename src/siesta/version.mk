@@ -13,7 +13,7 @@ endif
 
 NAME           = siesta_$(COMPILERNAME)_$(ROLLMPI)_$(ROLLNETWORK)
 VERSION        = 3.2.4
-RELEASE        = 1
+RELEASE        = 2
 PKGROOT        = /opt/siesta
 
 SRC_SUBDIR     = siesta
