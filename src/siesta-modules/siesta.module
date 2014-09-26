@@ -1,0 +1,4 @@
+#%Module1.0
+setenv SIESTAHOME /opt/siesta
+prepend-path PATH /opt/siesta/bin
+module load ROLLCOMPILER ROLLMPI_ROLLNETWORK hdf5 netcdf mkl

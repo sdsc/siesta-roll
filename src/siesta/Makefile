@@ -115,9 +115,6 @@ install::
 	mkdir -p -m 755 $(ROOT)/$(PKGROOT)/bin
 	cp $(SOURCE_DIR)/Obj/siesta $(ROOT)/$(PKGROOT)/bin/
 	cp -r $(SOURCE_DIR)/Tests $(ROOT)/$(PKGROOT)
-	mkdir -p -m 755 $(REDHAT.ROOT)/src/build-siesta-modules
-	cat siesta.module | perl -pi -e "s!MODULEROOT!/opt/modulefiles/applications/siesta!g;s!VERSION!$(VERSION)!g;s!ROLLCOMPILER!$(ROLLCOMPILER)!g;s!ROLLMPI!$(ROLLMPI)!g;s!ROLLNETWORK!$(ROLLNETWORK)!g" \
-          > $(REDHAT.ROOT)/src/build-siesta-modules/$(NAME).module
 	@echo "::: Package $(NAME) install complete :::"
 
 clean::

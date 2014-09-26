@@ -1,5 +1,9 @@
-NAME       = siesta-modules
-VERSION    = 1.0
-RELEASE    = 0
+NAME        = siesta-modules
+RELEASE     = 1
+PKGROOT     = /opt/modulefiles/applications/siesta
 
-RPM.EXTRAS = AutoReq:No
+VERSION_SRC = $(REDHAT.ROOT)/src/siesta/version.mk
+VERSION_INC = version.inc
+include $(VERSION_INC)
+
+RPM.EXTRAS  = AutoReq:No
