@@ -8,9 +8,9 @@ ifndef ROLLMPI
 endif
 MPINAME := $(firstword $(subst /, ,$(ROLLMPI)))
 
-NAME           = siesta_$(COMPILERNAME)_$(ROLLMPI)
+NAME           = sdsc-siesta
 VERSION        = 3.2.4
-RELEASE        = 3
+RELEASE        = 4
 PKGROOT        = /opt/siesta
 
 SRC_SUBDIR     = siesta

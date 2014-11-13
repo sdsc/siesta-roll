@@ -60,41 +60,38 @@ REDHAT.ROOT = $(CURDIR)/../../
 
 -include $(ROCKSROOT)/etc/Rules.mk
 include Rules.mk
-include pull.mk
+include $(SDSCDEVEL)/Pull.mk
+include $(SDSCDEVEL)/Rules.mk
 
-COMPILERSETUP =  \
-  module load $(ROLLCOMPILER) || true; \
-  echo === Compiler and version ===; \
-  $(CC) --version
+LICENSE_FILES = $(SOURCE_DIR)/SIESTA_LICENCE computer-center-license.html
 
-HDF5SETUP = \
-  module load hdf5 || true; \
-  echo === HDF5HOME ===; \
-  echo $${HDF5HOME}
+$(NAME).spec: DESCRIPTION LICENSE
 
-MKLSETUP = \
-  module load mkl || true; \
-  echo === MKL_ROOT ===; \
-  echo $${MKL_ROOT}; \
-  export MKLLIB=`find $${MKL_ROOT}/lib/* -maxdepth 0 | head -1`
+DESCRIPTION:
+	$(MODULE_LOAD_CC); \
+	$(MODULE_LOAD_MPI); \
+	( \
+	  $(DESCRIBE_PKG); \
+	  $(DESCRIBE_CC); \
+	  $(DESCRIBE_MKL); \
+	  $(DESCRIBE_MPI); \
+	  $(DESCRIBE_HDF5); \
+	  $(DESCRIBE_NETCDF) \
+	) > $@
 
-MPISETUP = \
-  module load $(ROLLMPI) || true; \
-  echo === MPIHOME ===; \
-  echo $${MPIHOME}
-
-NETCDFSETUP = \
-  module load netcdf || true; \
-  echo === NETCDFHOME ===; \
-  echo $${NETCDFHOME}
+LICENSE: $(SRC_DIRS)
+	if ! grep -qF "LICENCE presented to him/her" $(SOURCE_DIR)/SIESTA_LICENCE; then \
+	  exit 2; \
+	fi
+	echo siesta > $@
 
 build: $(SRC_DIRS)
 	( \
-	  $(COMPILERSETUP); \
-	  $(MKLSETUP); \
-	  $(MPISETUP); \
-	  $(HDF5SETUP); \
-	  $(NETCDFSETUP); \
+	  $(MODULE_LOAD_CC); \
+	  $(MODULE_LOAD_MKL); \
+	  $(MODULE_LOAD_MPI); \
+	  $(MODULE_LOAD_HDF5); \
+	  $(MODULE_LOAD_NETCDF); \
 	  patch -o $(SOURCE_DIR)/Obj/arch.make $(SOURCE_DIR)/Src/Sys/DOCUMENTED-TEMPLATE.make patch-files/DOCUMENTED-TEMPLATE.make.patch; \
 	  perl -pi -e "s!ROLLMKL!$${MKLLIB}!g" $(SOURCE_DIR)/Obj/arch.make; \
 	  perl -pi -e "s!ROLLNETCDF!$${NETCDFHOME}!g" $(SOURCE_DIR)/Obj/arch.make; \
@@ -109,7 +106,8 @@ install::
 	mkdir -p -m 755 $(ROOT)/$(PKGROOT)/bin
 	cp $(SOURCE_DIR)/Obj/siesta $(ROOT)/$(PKGROOT)/bin/
 	cp -r $(SOURCE_DIR)/Tests $(ROOT)/$(PKGROOT)
+	$(INSTALL_PACKAGE_FILES)
 	@echo "::: Package $(NAME) install complete :::"
 
 clean::
-	rm -rf $(SOURCE_DIR)
+	rm -rf $(SOURCE_DIR) DESCRIPTION LICENSE
