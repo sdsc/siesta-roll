@@ -63,8 +63,6 @@ include Rules.mk
 include $(SDSCDEVEL)/Pull.mk
 include $(SDSCDEVEL)/Rules.mk
 
-LICENSE_FILES = $(SOURCE_DIR)/SIESTA_LICENCE computer-center-license.html
-
 $(NAME).spec: DESCRIPTION LICENSE
 
 DESCRIPTION:
@@ -80,9 +78,8 @@ DESCRIPTION:
 	) > $@
 
 LICENSE: $(SRC_DIRS)
-	if ! grep -qF "LICENCE presented to him/her" $(SOURCE_DIR)/SIESTA_LICENCE; then \
-	  exit 2; \
-	fi
+	cp license-files/computer-center-licence.html $(SOURCE_DIR)/
+	$(CHECK_LICENSE_FILES)
 	echo siesta > $@
 
 build: $(SRC_DIRS)
@@ -107,7 +104,7 @@ install::
 	mkdir -p -m 755 $(ROOT)/$(PKGROOT)/bin
 	cp $(SOURCE_DIR)/Obj/siesta $(ROOT)/$(PKGROOT)/bin/
 	cp -r $(SOURCE_DIR)/Tests $(ROOT)/$(PKGROOT)
-	$(INSTALL_PACKAGE_FILES)
+	$(INSTALL_LICENSE_FILES)
 	@echo "::: Package $(NAME) install complete :::"
 
 clean::
