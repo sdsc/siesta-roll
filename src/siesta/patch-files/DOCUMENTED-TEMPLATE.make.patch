@@ -1,5 +1,5 @@
 --- siesta-3.2-pl-5/Src/Sys/DOCUMENTED-TEMPLATE.make	2014-07-09 06:13:49.000000000 -0700
-+++ patch-files/DOCUMENTED-TEMPLATE.make	2015-01-21 21:59:07.000000000 -0800
++++ patch-files/DOCUMENTED-TEMPLATE.make	2015-01-22 11:47:36.000000000 -0800
 @@ -24,20 +24,20 @@
  #
  # This string will be copied to the executable, so it pays to
@@ -115,7 +115,7 @@
  #
 -LIBS=$(NETCDF_LIBS) $(SCALAPACK_LIBS) $(BLACS_LIBS) $(LAPACK_LIBS) \
 -     $(MPI_LIBS) $(COMP_LIBS)
-+LIBS=-LMKLLIB -lmkl_rt -lmkl_scalapack_lp64 -lmkl_blacs_lp64 $(MPI_LIBS) $(COMP_LIBS) $(NETCDF_LIBS)
++LIBS=-LROLLMKL -lmkl_rt -lmkl_scalapack_lp64 -lmkl_blacs_lp64 $(MPI_LIBS) $(COMP_LIBS) $(NETCDF_LIBS)
  
  # Dependency rules ---------
  
