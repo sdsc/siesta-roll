@@ -1,5 +1,5 @@
---- siesta-3.2-pl-4/Src/Sys/DOCUMENTED-TEMPLATE.make	2014-01-31 06:50:52.000000000 -0800
-+++ patch-files/DOCUMENTED-TEMPLATE.make	2014-07-08 12:24:05.000000000 -0700
+--- siesta-3.2-pl-5/Src/Sys/DOCUMENTED-TEMPLATE.make	2014-07-09 06:13:49.000000000 -0700
++++ patch-files/DOCUMENTED-TEMPLATE.make	2015-01-21 21:59:07.000000000 -0800
 @@ -24,20 +24,20 @@
  #
  # This string will be copied to the executable, so it pays to
