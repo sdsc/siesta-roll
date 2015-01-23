@@ -9,15 +9,15 @@ endif
 MPINAME := $(firstword $(subst /, ,$(ROLLMPI)))
 
 NAME           = sdsc-siesta
-VERSION        = 3.2.4
-RELEASE        = 4
+VERSION        = 3.2.5
+RELEASE        = 0
 PKGROOT        = /opt/siesta
 
 SRC_SUBDIR     = siesta
 
 SOURCE_NAME    = siesta
 SOURCE_SUFFIX  = tgz
-SOURCE_VERSION = 3.2.4
+SOURCE_VERSION = 3.2-pl-5
 SOURCE_PKG     = $(SOURCE_NAME)-$(SOURCE_VERSION).$(SOURCE_SUFFIX)
 SOURCE_DIR     = $(SOURCE_PKG:%.$(SOURCE_SUFFIX)=%)
 
