@@ -20,7 +20,7 @@ print OUT <<END;
 module load siesta
 mkdir $TESTFILE.dir
 cd $TESTFILE.dir
-cp -r \$SIESTAHOME/Tests/* .
+cp -r \${SIESTAHOME}/Tests/* .
 cd h2o
 make SIESTA=`which siesta`
 ls *.out
