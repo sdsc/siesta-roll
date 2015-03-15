@@ -33,7 +33,7 @@
  #
  # Here we should put mainly optimization flags
 -FFLAGS=-O3 -qstrict -qarch=pwr5 -qtune=pwr5 -qcache=auto -qessl
-+FFLAGS=
++FFLAGS=-O3 AVXFLAG
  #
  # Some systems do not have 'ranlib'. If so, use "echo" instead of "ranlib"
  RANLIB=ranlib
