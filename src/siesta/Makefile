@@ -65,6 +65,21 @@ include $(SDSCDEVEL)/Rules.mk
 
 $(NAME).spec: DESCRIPTION LICENSE
 
+AVX_FLAG=
+ifneq ("$(ROLLOPTS)", "$(subst avx2,,$(ROLLOPTS))")
+  ifeq ("$(COMPILERNAME)", "gnu")
+    AVX_FLAG = -mavx2
+  else ifeq ("$(COMPILERNAME)", "intel")
+    AVX_FLAG = -xcore-avx2
+  endif
+else ifneq ("$(ROLLOPTS)", "$(subst avx,,$(ROLLOPTS))")
+  ifeq ("$(COMPILERNAME)", "gnu")
+    AVX_FLAG = -mavx
+  else ifeq ("$(COMPILERNAME)", "intel")
+    AVX_FLAG = -xavx
+  endif
+endif
+
 DESCRIPTION:
 	$(MODULE_LOAD_CC); \
 	$(MODULE_LOAD_MPI); \
@@ -94,6 +109,7 @@ build: $(SRC_DIRS)
 	  perl -pi -e "s!ROLLMKL!$${MKLLIB}!g" $(SOURCE_DIR)/Obj/arch.make; \
 	  perl -pi -e "s!ROLLNETCDF!$${NETCDFHOME}!g" $(SOURCE_DIR)/Obj/arch.make; \
 	  perl -pi -e "s!ROLLHDF5!$${HDF5HOME}!g" $(SOURCE_DIR)/Obj/arch.make; \
+	  perl -pi -e "s!AVXFLAG!$(AVX_FLAG)!g" $(SOURCE_DIR)/Obj/arch.make; \
 	  cd $(SOURCE_DIR)/Obj; \
 	  sh ../Src/obj_setup.sh; \
 	  $(MAKE) \
