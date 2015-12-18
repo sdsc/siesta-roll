@@ -1,5 +1,5 @@
 --- siesta-3.2.1/Src/Sys/DOCUMENTED-TEMPLATE.make	2015-10-20 06:52:42.000000000 -0700
-+++ patch-files/DOCUMENTED-TEMPLATE.make	2015-12-17 16:09:44.318615678 -0800
++++ patch-files/DOCUMENTED-TEMPLATE.make	2015-12-17 16:19:15.696987503 -0800
 @@ -24,20 +24,20 @@
  #
  # This string will be copied to the executable, so it pays to
@@ -24,7 +24,7 @@
  #
  # The FC_SERIAL symbol is useful in at least two cases:
  #   1. When the "MPI compiler environment" is so complex that it might
-@@ -46,31 +46,31 @@
+@@ -46,31 +46,32 @@
  #      the computer centers as "queuing-system-only". 
  # Most utilities are thus compiled with FC_SERIAL, which in practice
  # defaults to FC if it is not defined.
@@ -34,6 +34,7 @@
  # Here we should put mainly optimization flags
 -FFLAGS=-O3 -qstrict -qarch=pwr5 -qtune=pwr5 -qcache=auto -qessl
 +FFLAGS=-O3 AVXFLAG -fcheck=all
++FCLAGS=-O3 AVXFLAG -fcheck=all
  #
  # Some systems do not have 'ranlib'. If so, use "echo" instead of "ranlib"
  RANLIB=ranlib
@@ -64,7 +65,7 @@
  
  #
  # Used only at the linking stage. For example, you might neeed "-static"
-@@ -86,9 +86,9 @@
+@@ -86,9 +87,9 @@
  # These symbols help to keep the building rules concise
  # (they are generated automatically by the 'configure' script
  # in some cases) 
@@ -76,7 +77,7 @@
  FPPFLAGS_free_F90=
  
  #
-@@ -97,11 +97,6 @@
+@@ -97,11 +98,6 @@
  # using the -L flag to define search directories (see examples
  # in this directory).
  #
@@ -88,7 +89,7 @@
  # If you are using a "wrapper compiler" such as mpif90, MPI_LIBS can
  # be left empty. If not, you might need something like -L somepath/ -l mpi ....
  #
-@@ -122,9 +117,9 @@
+@@ -122,9 +118,9 @@
  # with the other options (for example, 32/64 bit). Don't forget
  # to set -DCDF below.
  #
@@ -100,7 +101,7 @@
  
  #
  # This (as well as the -DMPI definition) is essential for MPI support
-@@ -143,16 +138,14 @@
+@@ -143,16 +139,14 @@
  #
  # For old versions of gfortran, add -DGFORTRAN
  #
