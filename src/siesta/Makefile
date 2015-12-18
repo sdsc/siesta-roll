@@ -116,7 +116,6 @@ build: $(SRC_DIRS)
              --with-netcdf=-lnetcdf --with-blas=-lmkl_rt --with-lapack=-lmkl_rt \
              --with-blacs=-lmkl_blacs_openmpi_lp64 --with-scalapack=-lmkl_scalapack_lp64; \
           cp arch.make ../Obj; \
-          cd $(SOURCE_DIR)/Obj; \
           cd ../Obj; \
 	  sh ../Src/obj_setup.sh; \
 	  $(MAKE) \
