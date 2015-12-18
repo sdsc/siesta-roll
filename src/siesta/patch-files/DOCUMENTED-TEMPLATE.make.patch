@@ -1,5 +1,5 @@
---- siesta-trunk-479/Src/Sys/DOCUMENTED-TEMPLATE.make	2015-10-20 06:52:42.000000000 -0700
-+++ patch-files/DOCUMENTED-TEMPLATE.make	2015-11-09 12:44:28.550246046 -0800
+--- siesta-3.2.1/Src/Sys/DOCUMENTED-TEMPLATE.make	2015-10-20 06:52:42.000000000 -0700
++++ patch-files/DOCUMENTED-TEMPLATE.make	2015-12-17 16:09:44.318615678 -0800
 @@ -24,20 +24,20 @@
  #
  # This string will be copied to the executable, so it pays to
@@ -33,7 +33,7 @@
  #
  # Here we should put mainly optimization flags
 -FFLAGS=-O3 -qstrict -qarch=pwr5 -qtune=pwr5 -qcache=auto -qessl
-+FFLAGS=-O3 AVXFLAG
++FFLAGS=-O3 AVXFLAG -fcheck=all
  #
  # Some systems do not have 'ranlib'. If so, use "echo" instead of "ranlib"
  RANLIB=ranlib

@@ -117,7 +117,6 @@ build: $(SRC_DIRS)
           export FC=`which mpif90`; \
           export FPPFLAGS="-I$${NETCDFHOME}/include"; \
           export LDFLAGS="-g -L$${MKLLIB} -L$${HDF5HOME}/lib -L$${NETCDFHOME}/lib -lhdf5 -lnetcdff -lnetcdf -lmkl_rt -lmkl_scalapack_lp64 -lmkl_blacs_openmpi_lp64"; \
-          export FCFLAGS="-g -O0 -fcheck=all"; \
           ../Src/configure --prefix=$(ROOT)/$(PKGROOT) --enable-mpi --enable-fast --enable-mpi-libs \
              --with-netcdf=-lnetcdf --with-blas=-lmkl_rt --with-lapack=-lmkl_rt \
              --with-blacs=-lmkl_blacs_openmpi_lp64 --with-scalapack=-lmkl_scalapack_lp64; \
