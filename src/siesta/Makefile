@@ -82,7 +82,6 @@ endif
 
 DESCRIPTION:
 	$(MODULE_LOAD_CC); \
-	$(MODULE_LOAD_MPI); \
 	( \
 	  $(DESCRIBE_PKG); \
 	  $(DESCRIBE_CC); \
