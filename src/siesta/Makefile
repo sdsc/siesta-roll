@@ -139,7 +139,7 @@ install::
 	mkdir -p -m 755 $(ROOT)/$(PKGROOT)/bin
 	cp dist/* $(ROOT)/$(PKGROOT)/bin
 	cp -r $(SOURCE_DIR)/Tests $(ROOT)/$(PKGROOT)
-	$s(INSTALL_LICENSE_FILES)
+	$(INSTALL_LICENSE_FILES)
 	@echo "::: Package $(NAME) install complete :::"
 
 clean::
