@@ -80,6 +80,13 @@ else ifneq ("$(ROLLOPTS)", "$(subst avx,,$(ROLLOPTS))")
   endif
 endif
 
+ifneq (,$(findstring mvapich,$(MPINAME)))
+  INTELMPITYPE=intelmpi
+else
+  INTELMPITYPE=openmpi
+endif
+
+
 DESCRIPTION:
 	$(MODULE_LOAD_CC); \
 	( \
@@ -97,6 +104,9 @@ LICENSE: $(SRC_DIRS)
 	echo siesta > $@
 
 build: $(SRC_DIRS)
+	mkdir -p -m 755 $(ROOT)/$(PKGROOT)/bin
+	mkdir dist
+	patch $(SOURCE_DIR)/Src/arch.make.in patch-files/arch.make.in.patch
 	( \
 	  $(MODULE_LOAD_CC); \
 	  $(MODULE_LOAD_MKL); \
@@ -110,22 +120,26 @@ build: $(SRC_DIRS)
           export FC=`which mpif90`; \
           export FPPFLAGS="-I$${NETCDFHOME}/include"; \
           export FCFLAGS="-O3 $(AVX_FLAG) -fcheck=all"; \
-          export LDFLAGS="-g -L$${MKLLIB} -L$${HDF5HOME}/lib -L$${NETCDFHOME}/lib -lhdf5 -lnetcdff -lnetcdf -lmkl_rt -lmkl_scalapack_lp64 -lmkl_blacs_openmpi_lp64"; \
+          export LDFLAGS="-g -L$${MKLLIB} -L$${HDF5HOME}/lib -L$${NETCDFHOME}/lib -lhdf5 -lnetcdff -lnetcdf -lmkl_rt -lmkl_scalapack_lp64 -lmkl_blacs_$(INTELMPITYPE)_lp64"; \
           ../Src/configure --prefix=$(ROOT)/$(PKGROOT) --enable-mpi --enable-fast --enable-mpi-libs \
              --with-netcdf=-lnetcdf --with-blas=-lmkl_rt --with-lapack=-lmkl_rt \
              --with-blacs=-lmkl_blacs_openmpi_lp64 --with-scalapack=-lmkl_scalapack_lp64; \
           cp arch.make ../Obj; \
           cd ../Obj; \
 	  sh ../Src/obj_setup.sh; \
-	  $(MAKE) \
+	  $(MAKE); \
+          cp siesta $(PWD)/dist; \
+          make clean; \
+          make transiesta; \
+          cp transiesta $(PWD)/dist; \
 	)
 	@echo "::: Package $(NAME) build complete :::"
 
 install::
 	mkdir -p -m 755 $(ROOT)/$(PKGROOT)/bin
-	cp $(SOURCE_DIR)/Obj/siesta $(ROOT)/$(PKGROOT)/bin/
+	cp dist/* $(ROOT)/$(PKGROOT)/bin
 	cp -r $(SOURCE_DIR)/Tests $(ROOT)/$(PKGROOT)
-	$(INSTALL_LICENSE_FILES)
+	$s(INSTALL_LICENSE_FILES)
 	@echo "::: Package $(NAME) install complete :::"
 
 clean::

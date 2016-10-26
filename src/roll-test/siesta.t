@@ -22,7 +22,21 @@ mkdir $TESTFILE.dir
 cd $TESTFILE.dir
 cp -r \${SIESTAHOME}/Tests/* .
 cd h2o
-make SIESTA=`which siesta`
+make SIESTA='mpirun -np 4 `which siesta`'
+ls *.out
+cat *.out
+END
+close(OUT);
+
+open(OUT, ">${TESTFILE}2.sh");
+print OUT <<END;
+#!/bin/bash
+module load siesta
+mkdir ${TESTFILE}2.dir
+cd ${TESTFILE}2.dir
+cp -r \${SIESTAHOME}/Tests/* .
+cd TranSiesta-TBTrans/ts_au
+mpirun -np 4 `which transiesta` < elec_au_111_abc.fdf >& elec_au_111_abc.fdf.out
 ls *.out
 cat *.out
 END
@@ -41,6 +55,10 @@ SKIP: {
   like($output, qr/\.out/, 'siesta output file created');
   like($output, qr/Electric dipole.*0\.558/, 'siesta test run output');
 
+  $output = `bash ${TESTFILE}2.sh 2>&1`;
+  like($output, qr/\.out/, 'transiesta output file created');
+  like($output, qr/siesta:.*Total =.*-2714\.031366/, 'transiesta test run output');
+
   `/bin/ls /opt/modulefiles/applications/siesta/[0-9]* 2>&1`;
   ok($? == 0, 'siesta module installed');
   `/bin/ls /opt/modulefiles/applications/siesta/.version.[0-9]* 2>&1`;
@@ -50,4 +68,4 @@ SKIP: {
 
 }
 
-`rm -fr $TESTFILE*`;
+#`rm -fr $TESTFILE*`;
