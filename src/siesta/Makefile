@@ -99,7 +99,6 @@ DESCRIPTION:
 	) > $@
 
 LICENSE: $(SRC_DIRS)
-	cp license-files/computer-center-licence.html $(SOURCE_DIR)/
 	$(CHECK_LICENSE_FILES)
 	echo siesta > $@
 
