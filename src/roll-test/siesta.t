@@ -68,4 +68,4 @@ SKIP: {
 
 }
 
-#`rm -fr $TESTFILE*`;
+`rm -fr $TESTFILE*`;
