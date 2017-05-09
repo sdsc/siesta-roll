@@ -1,6 +1,6 @@
 NAME       = sdsc-siesta-roll-test
-VERSION    = 1
-RELEASE    = 2
+VERSION    = 2
+RELEASE    = 0
 PKGROOT    = /root/rolltests
 
 RPM.EXTRAS = AutoReq:No
