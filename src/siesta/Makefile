@@ -79,15 +79,19 @@ else ifneq ("$(ROLLOPTS)", "$(subst avx,,$(ROLLOPTS))")
   endif
 endif
 
+
 ifneq (,$(findstring mvapich,$(MPINAME)))
+  MPITYPE=$(findstring mvapich,$(MPINAME))
+else
+  MPITYPE=$(MPINAME)
+endif
+
+ifneq (,$(filter mvapich intelmpi ,$(MPITYPE)))
   MPITYPE=intelmpi
 else
   MPITYPE=openmpi
 endif
 
-ifneq (,$(findstring intelmpi,$(MPINAME)))
-  INTELMPITYPE=intelmpi
-endif
 
 OMPTYPE=gomp
 CTYPE=gnu
