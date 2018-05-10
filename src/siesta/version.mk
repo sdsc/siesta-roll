@@ -10,7 +10,7 @@ MPINAME := $(firstword $(subst /, ,$(ROLLMPI)))
 
 NAME           = sdsc-siesta
 VERSION        = 4.0
-RELEASE        = 2
+RELEASE        = 3
 PKGROOT        = /opt/siesta
 
 SRC_SUBDIR     = siesta

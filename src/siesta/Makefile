@@ -79,12 +79,28 @@ else ifneq ("$(ROLLOPTS)", "$(subst avx,,$(ROLLOPTS))")
   endif
 endif
 
+
 ifneq (,$(findstring mvapich,$(MPINAME)))
-  INTELMPITYPE=intelmpi
+  MPITYPE=$(findstring mvapich,$(MPINAME))
 else
-  INTELMPITYPE=openmpi
+  MPITYPE=$(MPINAME)
 endif
 
+ifneq (,$(filter mvapich intelmpi ,$(MPITYPE)))
+  MPITYPE=intelmpi
+else
+  MPITYPE=openmpi
+endif
+
+
+OMPTYPE=gomp
+CTYPE=gnu
+FORTRANTYPE=gf
+ifneq (,$(findstring intel,$(COMPILERNAME)))
+  FORTRANTYPE=intel
+  OMPTYPE=iomp5
+  CTYPE=intel
+endif
 
 DESCRIPTION:
 	$(MODULE_LOAD_CC); \
@@ -118,10 +134,11 @@ build: $(SRC_DIRS)
           export FC=`which mpif90`; \
           export FPPFLAGS="-I$${NETCDFHOME}/include"; \
           export FCFLAGS="-O3 $(AVX_FLAG) -fcheck=all"; \
-          export LDFLAGS="-g -L$${MKLLIB} -L$${HDF5HOME}/lib -L$${NETCDFHOME}/lib -lhdf5 -lnetcdff -lnetcdf -lmkl_rt -lmkl_scalapack_lp64 -lmkl_blacs_$(INTELMPITYPE)_lp64"; \
+          export LDFLAGS="-g -L$${MKLLIB} -L$${HDF5HOME}/lib -L$${NETCDFHOME}/lib -lhdf5 -lnetcdff -lnetcdf -lmkl_scalapack_lp64 -lmkl_$(FORTRANTYPE)_lp64 -lmkl_$(CTYPE)_thread -lmkl_core -lmkl_blacs_$(MPITYPE)_lp64 -l$(OMPTYPE) -lpthread -ldl -lm"; \
           ../Src/configure --prefix=$(ROOT)/$(PKGROOT) --enable-mpi --enable-fast --enable-mpi-libs \
-             --with-netcdf=-lnetcdf --with-blas=-lmkl_rt --with-lapack=-lmkl_rt \
-             --with-blacs=-lmkl_blacs_openmpi_lp64 --with-scalapack=-lmkl_scalapack_lp64; \
+             --with-netcdf=-lnetcdf --with-blas="-L$${MKLLIB}/lib -lmkl_$(FORTRANTYPE)_lp64 -lmkl_$(CTYPE)_thread -lmkl_core -l$(OMPTYPE) -lpthread -ldl -lm" \
+             --with-lapack="-L$${MKLLIB}/lib -lmkl_$(FORTRANTYPE)_lp64 -lmkl_$(CTYPE)_thread -lmkl_core -l$(OMPTYPE) -lpthread -ldl -lm" \
+             --with-blacs=-lmkl_blacs_$(MPITYPE)_lp64 --with-scalapack=-lmkl_scalapack_lp64; \
           cp arch.make ../Obj; \
           cd ../Obj; \
 	  sh ../Src/obj_setup.sh; \
