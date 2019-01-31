@@ -65,7 +65,7 @@ SKIP: {
 
   $output = `bash ${TESTFILE}2.sh 2>&1`;
   like($output, qr/\.out/, 'transiesta output file created');
-  like($output, qr/siesta:.*Total =.*-2714\.031366/, 'transiesta test run output');
+  like($output, qr/siesta:.*Total =.*-2714\.031355/, 'transiesta test run output');
 
   `/bin/ls /opt/modulefiles/applications/siesta/[0-9]* 2>&1`;
   ok($? == 0, 'siesta module installed');
